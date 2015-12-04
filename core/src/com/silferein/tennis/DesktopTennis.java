@@ -11,6 +11,8 @@ public class DesktopTennis extends ApplicationAdapter {
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private Ball ball;
+	private Paddle player;
+	private Paddle computer;
 	
 	@Override
 	public void create () {
@@ -22,6 +24,9 @@ public class DesktopTennis extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		
 		ball = new Ball(camera.viewportWidth / 2, camera.viewportHeight / 2);
+		player = new Paddle(0f, camera.viewportHeight / 2, 150f, 30f, new PlayerPaddleController());
+		computer = new Paddle(camera.viewportWidth, camera.viewportHeight / 2, 150f, 30f);
+		computer.setController( new AIPaddleController(ball, computer) );
 	}
 
 	@Override
@@ -38,10 +43,14 @@ public class DesktopTennis extends ApplicationAdapter {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		ball.draw(batch);
+		player.draw(batch);
+		computer.draw(batch);
 		batch.end();
 	}
 	
 	private void update(float delta) {
+		player.update(delta);
+		computer.update(delta);
 		ball.update(delta);
 	}
 }

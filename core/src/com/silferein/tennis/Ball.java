@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
-public class Ball {
+public class Ball implements IBasicGameObject {
 	private static final float BASE_SPEED = 150f;
-	
+
 	private Sprite sprite;
 	private Vector2 velocity;
 	
@@ -22,13 +22,23 @@ public class Ball {
 				MathUtils.random(-BASE_SPEED, BASE_SPEED));
 	}
 	
+	@Override
 	public void draw(SpriteBatch batch) {
 		sprite.draw(batch);
 	}
 	
+	@Override
 	public void update(float delta) {
-		sprite.setPosition(
-				sprite.getX() + velocity.x * delta, 
-				sprite.getY() + velocity.y * delta);
+		sprite.translate(velocity.x * delta, velocity.y * delta);
+	}
+
+	@Override
+	public Vector2 getCenter() {
+		return new Vector2(sprite.getX() + sprite.getWidth()/2f, sprite.getY() + sprite.getHeight()/2f);
+	}
+
+	@Override
+	public void setCenter(float x, float y) {
+		sprite.setCenter(x, y);
 	}
 }
