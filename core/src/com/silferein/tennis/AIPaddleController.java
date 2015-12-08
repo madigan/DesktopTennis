@@ -5,10 +5,10 @@ import com.silferein.tennis.Paddle.Direction;
 public class AIPaddleController implements IPaddleController {
 	private static final float BUFFER = 20.0f;
 	
-	private IBasicGameObject parent;
-	private IBasicGameObject target;
+	private IGameObject parent;
+	private IGameObject target;
 	
-	public AIPaddleController(IBasicGameObject target, IBasicGameObject parent) {
+	public AIPaddleController(IGameObject target, IGameObject parent) {
 		this.target = target;
 		this.parent = parent;
 	}

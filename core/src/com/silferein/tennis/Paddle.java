@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class Paddle implements IBasicGameObject {
+public class Paddle implements IGameObject {
 	private static final float SPEED = 100f;
 	
 	private Sprite sprite;
@@ -15,8 +15,6 @@ public class Paddle implements IBasicGameObject {
 		sprite = new Sprite(new Texture("paddle.png"));
 		sprite.setSize(w, h);
 		sprite.setCenter(x,  y);
-		sprite.setOriginCenter();
-		sprite.rotate(90);
 		controller = control;
 	}
 	public Paddle(float x, float y, float w, float h) {
@@ -29,7 +27,7 @@ public class Paddle implements IBasicGameObject {
 	}
 	
 	@Override
-	public void update(float delta) {
+	public void update(GameWorld world, float delta) {
 		if(controller == null) return;
 		
 		switch(controller.getDirection()) {
@@ -61,5 +59,13 @@ public class Paddle implements IBasicGameObject {
 	@Override
 	public void setCenter(float x, float y) {
 		sprite.setCenter(x, y);
+	}
+	@Override
+	public Vector2 getPosition() {
+		return new Vector2(sprite.getX(), sprite.getHeight());
+	}
+	@Override
+	public Vector2 getSize() {
+		return new Vector2(sprite.getWidth(), sprite.getHeight());
 	}
 }

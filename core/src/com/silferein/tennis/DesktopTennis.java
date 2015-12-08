@@ -14,6 +14,8 @@ public class DesktopTennis extends ApplicationAdapter {
 	private Paddle player;
 	private Paddle computer;
 	
+	private GameWorld world;
+	
 	@Override
 	public void create () {
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
@@ -24,9 +26,14 @@ public class DesktopTennis extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		
 		ball = new Ball(camera.viewportWidth / 2, camera.viewportHeight / 2);
-		player = new Paddle(0f, camera.viewportHeight / 2, 150f, 30f, new PlayerPaddleController());
-		computer = new Paddle(camera.viewportWidth, camera.viewportHeight / 2, 150f, 30f);
+		player = new Paddle(0f, camera.viewportHeight / 2, 30f, 150f, new PlayerPaddleController());
+		computer = new Paddle(camera.viewportWidth, camera.viewportHeight / 2, 30f, 150f);
 		computer.setController( new AIPaddleController(ball, computer) );
+		
+		world = new GameWorld();
+		world.addCollidable(player);
+		world.addCollidable(computer);
+		world.setWorldDimensions(camera.viewportWidth, camera.viewportHeight);
 	}
 
 	@Override
@@ -49,8 +56,8 @@ public class DesktopTennis extends ApplicationAdapter {
 	}
 	
 	private void update(float delta) {
-		player.update(delta);
-		computer.update(delta);
-		ball.update(delta);
+		player.update(world, delta);
+		computer.update(world, delta);
+		ball.update(world, delta);
 	}
 }
